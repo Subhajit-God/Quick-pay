@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b7852">
+  <meta name="description" content="Create UPI payment links and QR codes quickly.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Quick UPI Pay</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand-icon" aria-hidden="true">₹</div>
+      <div><p class="eyebrow">SIMPLE • FAST • UPI</p><h1>Quick UPI Pay</h1><p class="sub">Create a payment link or QR code</p></div>
+    </header>
+
+    <section class="card">
+      <div class="section-heading"><span class="step">1</span><div><h2>Recipient details</h2><p>Your saved recipient UPI ID</p></div></div>
+      <label for="upi">Fixed UPI ID</label>
+      <div class="inline-field"><input id="upi" autocomplete="off" inputmode="email" value="subhajitdas2012@nyes" aria-describedby="upiStatus"><button id="saveUpi" class="secondary" type="button">Save</button></div>
+      <p id="upiStatus" class="hint">Check the UPI ID carefully. It is saved only in this browser.</p>
+    </section>
+
+    <section class="card">
+      <div class="section-heading"><span class="step">2</span><div><h2>Payment details</h2><p>Choose an amount and add a note.</p></div></div>
+      <label for="amount">Amount (INR ₹)</label>
+      <div class="amount-wrap"><span>₹</span><input id="amount" type="number" inputmode="decimal" min="0.01" max="1000000" step="0.01" placeholder="0.00"></div>
+      <div class="quick-amounts" aria-label="Quick amounts">
+        <button type="button" data-amount="20">₹20</button><button type="button" data-amount="50">₹50</button><button type="button" data-amount="100">₹100</button><button type="button" data-amount="200">₹200</button>
+      </div>
+      <label for="note">Payment note</label>
+      <input id="note" maxlength="80" placeholder="e.g. Ice cream purchase" autocomplete="off">
+      <button id="generate" class="primary" type="button">Generate payment link &amp; QR</button>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+
+    <section id="result" class="card result" hidden>
+      <div class="section-heading"><span class="step">✓</span><div><h2>Payment request ready</h2><p>Review the details before sharing.</p></div></div>
+      <div class="summary"><div><span>Payee UPI ID</span><strong id="showUpi"></strong></div><div><span>Amount</span><strong id="showAmount"></strong></div><div><span>Note</span><strong id="showNote"></strong></div></div>
+      <div class="qr-area"><div id="qrcode" aria-label="UPI payment QR code"></div><p>Scan with a compatible UPI app.</p></div>
+      <a id="payLink" class="primary pay-link" href="#">Open UPI app</a>
+      <div class="actions"><button id="copyLink" class="secondary" type="button">Copy payment link</button><button id="shareLink" class="secondary" type="button">Share</button></div>
+      <button id="downloadQr" class="text-button" type="button">Download QR image</button>
+      <p class="notice">This creates a payment request only. Payment is not confirmed by this page. Check the status in your UPI app or bank account.</p>
+    </section>
+
+    <section class="card settings">
+      <h2>Install this app</h2>
+      <p>On Android Chrome, open the browser menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong> after hosting this website over HTTPS.</p>
+      <button id="installBtn" class="secondary" type="button" hidden>Install Quick UPI Pay</button>
+    </section>
+    <footer>Quick UPI Pay · No payment processing · No passwords or PINs collected</footer>
+  </main>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
